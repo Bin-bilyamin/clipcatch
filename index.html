@@ -45,29 +45,5 @@
     <footer>
         <p>&copy; 2024 ClipCatch</p>
     </footer>
-    <script>
-        document.getElementById('downloadForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const url = document.getElementById('url').value;
-            const contentType = document.getElementById('contentType').value;
-            const quality = document.getElementById('quality').value;
-            
-            document.getElementById('status').innerText = 'Processing...';
-            
-            // Send request to backend
-            const response = await fetch('/download', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ url, contentType, quality })
-            });
-
-            const data = await response.json();
-            if (data.success) {
-                document.getElementById('status').innerHTML = `<a href="${data.fileUrl}" download>Click here to download</a>`;
-            } else {
-                document.getElementById('status').innerText = 'Failed to download. Please try again.';
-            }
-        });
-    </script>
 </body>
 </html>
