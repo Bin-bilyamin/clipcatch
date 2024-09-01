@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="backeend.py">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <title>Download Videos and Pictures</title>
+</head>
+<body>
+    <header>
+        <h1>Welcome to ClipCatch</h1>
+    </header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="record.html">Records</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>    
+    <main class="container">
+        <div class="container box">
+            <h1>About ClipCatch</h1>
+            <div id="status"></div>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 ClipCatch</p>
+    </footer>
+    <script>
+        document.getElementById('downloadForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const url = document.getElementById('url').value;
+            const contentType = document.getElementById('contentType').value;
+            const quality = document.getElementById('quality').value;
+            
+            document.getElementById('status').innerText = 'Processing...';
+            
+            // Send request to backend
+            const response = await fetch('/download', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ url, contentType, quality })
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                document.getElementById('status').innerHTML = `<a href="${data.fileUrl}" download>Click here to download</a>`;
+            } else {
+                document.getElementById('status').innerText = 'Failed to download. Please try again.';
+            }
+        });
+    </script>
+</body>
+</html>
